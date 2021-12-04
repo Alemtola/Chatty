@@ -72,6 +72,8 @@ class Start extends Component {
               <View style={styles.colorsList}>
                 <TouchableOpacity
                  accessible={true}
+                 accessibilityLabel="Select grey background"
+                 accessibilityHint="Lets you choose grey background for the chat screen"
                  accessibilityRole="button"
                   onPress={() => this.changeBgColor(this.colors.grey)}
                 >
@@ -80,6 +82,8 @@ class Start extends Component {
 
                 <TouchableOpacity
                  accessible={true}
+                 accessibilityLabel="Select purple background"
+                 accessibilityHint="Lets you choose purple background for the chat screen"
                  accessibilityRole="button"
                   onPress={() => this.changeBgColor(this.colors.purple)}
                 >
@@ -88,6 +92,8 @@ class Start extends Component {
 
                 <TouchableOpacity
                 accessible={true}
+                accessibilityLabel="Select yellow background"
+                accessibilityHint="Lets you choose yellow background for the chat screen"
                 accessibilityRole="button"
                   onPress={() => this.changeBgColor(this.colors.yellow)}
                 >
@@ -96,6 +102,8 @@ class Start extends Component {
 
                 <TouchableOpacity
                   accessible={true}
+                  accessibilityLabel="Select blue background"
+                  accessibilityHint="Lets you choose blue background for the chat screen"
                   accessibilityRole="button"
                   onPress={() => this.changeBgColor(this.colors.blue)}
                 >
@@ -107,6 +115,8 @@ class Start extends Component {
             <Pressable
               style={styles.button}
               accessible={true}
+              accessibilityLabel="Tab here to Start chatting"
+              accessibilityHint="Lets you enter the chat screen"
               accessibilityRole="button"
               onPress={() =>
                 this.props.navigation.navigate("Chat", {
