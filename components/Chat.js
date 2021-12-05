@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { View, Text,  StyleSheet, Platform, KeyboardAvoidingView} from 'react-native';
-
+import firebase from "firebase";
+import "firebase/firestore";
 
 
 export default class Chat extends Component {
