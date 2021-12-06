@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { View, Text,  StyleSheet, Platform, KeyboardAvoidingView} from 'react-native';
+import { View, Text,  StyleSheet, Platform, KeyboardAvoidingView, LogBox} from 'react-native';
 import firebase from "firebase";
 import "firebase/firestore";
 
@@ -35,6 +35,14 @@ export default class Chat extends Component {
     }
     // reference to the Firestore message collection
     this.referenceChatMessages = firebase.firestore().collection("messages");
+
+     // To remove warning message in the console 
+     LogBox.ignoreLogs([
+      'Setting a timer',
+      'Warning: ...',
+      'undefined',
+      'Animated.event now requires a second argument for options',
+    ]);
 
   }
   
@@ -106,13 +114,9 @@ export default class Chat extends Component {
     // add a new messages to the collection
     this.referenceChatMessages.add({
       _id: message._id,
-      text: message.text || null,
+      text: message.text || "",
       createdAt: message.createdAt,
-      user: {
-        _id: message.user._id,
-        name: message.user.name,
-        avatar: message.user.avatar
-      } 
+      user: this.state.user
     });
   }
 
