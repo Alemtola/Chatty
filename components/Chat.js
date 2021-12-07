@@ -3,6 +3,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { View, Text,  StyleSheet, Platform, KeyboardAvoidingView, LogBox} from 'react-native';
 import firebase from "firebase";
 import "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // firebase config for the app
 const firebaseConfig = {
@@ -106,6 +107,40 @@ export default class Chat extends Component {
     this.authUnsubscribe();
     this.unsubscribe();
 
+  }
+
+  // to read a messgae from async storage
+  async getMessages() {
+    let messages = '';
+    try {
+      messages = await AsyncStorage.getItem('messages') || [];
+      this.setState({
+        messages: JSON.parse(messages)
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // to save a messgae on async storage
+  async saveMessages() {
+    try {
+      await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+    } catch (error) {
+    console.log(error.message);
+    }
+  }
+
+  // to delete a message from async storage
+  async deleteMessages() {
+    try {
+      await AsyncStorage.removeItem('messages');
+      this.setState({
+        messages: []
+      })
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   // Add messages to database
