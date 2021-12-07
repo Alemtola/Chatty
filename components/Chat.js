@@ -4,6 +4,7 @@ import { View, Text,  StyleSheet, Platform, KeyboardAvoidingView, LogBox} from '
 import firebase from "firebase";
 import "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from '@react-native-community/netinfo';
 
 // firebase config for the app
 const firebaseConfig = {
