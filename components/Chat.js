@@ -17,6 +17,9 @@ import "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 
+import MapView from 'react-native-maps';
+import CustomActions from './CustomActions';
+
 // firebase config for the app
 const firebaseConfig = {
   apiKey: "AIzaSyDJDcNXNsCLCXMBTVWIQvXOWKDl0Pj1gcY",
@@ -41,6 +44,8 @@ export default class Chat extends Component {
         avatar: "",
       },
       isConnected: false,
+      image: null,
+      location: null,
     };
 
     //initializing firebase
@@ -130,7 +135,9 @@ export default class Chat extends Component {
           _id: data.user._id,
           name: data.user.name,
           avatar: data.user.avatar
-        }
+        },
+        image: data.image || null,
+        location: data.location || null,
       });
     });
     this.setState({
@@ -190,7 +197,9 @@ export default class Chat extends Component {
       _id: message._id,
       text: message.text || "",
       createdAt: message.createdAt,
-      user: this.state.user
+      user: this.state.user,
+      image: message.image || "",
+      location: message.location || null,
     });
   }
 
@@ -226,6 +235,30 @@ export default class Chat extends Component {
     }
   }
 
+  // Returns a mapview when user adds a location to current message
+  renderCustomView(props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
+  // action button to access communication features via an action sheet
+  renderCustomActions(props) {
+    return <CustomActions {...props} />;
+  }
+
   render() {
     // Set the background color selected from start screen
     const { bgColor } = this.props.route.params;
@@ -241,7 +274,10 @@ export default class Chat extends Component {
               renderBubble={this.renderBubble.bind(this)}
               renderInputToolbar={this.renderInputToolbar.bind(this)}
               messages={this.state.messages}
+              user={this.state.user}
               onSend={messages => this.onSend(messages)}
+              renderActions={this.renderCustomActions}
+              renderCustomView={this.renderCustomView}
               user={{
                 _id: this.state.user._id,
                 name: this.state.name,
@@ -268,6 +304,7 @@ const styles = StyleSheet.create({
     width: "88%",
     paddingBottom: 10,
     justifyContent: "center",
+    borderRadius: 5,
   },
 
 });
